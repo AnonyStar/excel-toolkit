@@ -1,16 +1,25 @@
 package org.toolkit.easyexcel;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.util.StringUtils;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.toolkit.core.IExportFunction;
 import org.toolkit.exception.ExcelKitException;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Objects;
 
 public class ExportExcelKit extends EasyExcel {
 
+    private static final Logger logger = LoggerFactory.getLogger(ExportExcelKit.class);
 
     private HttpServletResponse httpServletResponse;
     private OutputStream outputStream;
@@ -27,18 +36,97 @@ public class ExportExcelKit extends EasyExcel {
         this.excelClass = excelClass;
     }
 
-    public ExportExcelKit(){
+    public ExportExcelKit() {
         super();
     }
 
+    public ExportExcelKit(OutputStream outputStream, String fileName, Class excelClass) {
+        this.outputStream = outputStream;
+        this.fileName = fileName;
+        this.excelClass = excelClass;
+    }
 
+
+    /**
+     * web导出.
+     * <p>
+     *     可分页获取数据进行导出.
+     * </p>
+     * @param params
+     * @param exportFunction
+     * @param <ParamType>
+     * @param <ExceleClass>
+     */
     public <ParamType, ExceleClass> void exportResponse(ParamType params,
                                                         IExportFunction<ParamType, ExceleClass> exportFunction) {
-        if (Objects.isNull(httpServletResponse)) {
-            throw new ExcelKitException("httpServletResponse 参数为空");
+        if (Objects.isNull(httpServletResponse) || StringUtils.isEmpty(fileName)) {
+            throw new ExcelKitException("httpServletResponse 或 fileName 参数为空");
+        }
+
+        httpServletResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        httpServletResponse.setHeader("Content-disposition",
+                String.format("attachment; filename=%s", fileName));
+        ExcelWriter excelWriter = null;
+        try {
+            ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+            excelWriter = EasyExcel.write(outputStream, excelClass).build();
+            WriteSheet writeSheet = EasyExcel.writerSheet().build();
+            int pageNo = 1;
+            while (true) {
+                List<ExceleClass> dataList = exportFunction.pageQuery(params, pageNo, pageSize);
+                if (null == dataList || dataList.isEmpty()) {
+                    logger.warn("查询结果集为空，结束查询！");
+                    break;
+                }
+                excelWriter.write(dataList, writeSheet);
+
+                if (dataList.size() < pageSize) {
+                    logger.warn("查询结果集小于 pageSize ，结束查询!");
+                    break;
+                }
+                pageNo++;
+            }
+        } catch (IOException e) {
+            throw new ExcelKitException();
+        } finally {
+            logger.info("关闭excel流资源");
+            if (excelWriter != null) {
+                excelWriter.finish();
+            }
         }
     }
 
 
+    public <ParamType, ExceleClass> void exportStram(ParamType params,
+                                                        IExportFunction<ParamType, ExceleClass> exportFunction) {
+        if (Objects.isNull(outputStream)) {
+            throw new ExcelKitException("outputStream 参数为空");
+        }
+        ExcelWriter excelWriter = null;
+        try {
+            excelWriter = EasyExcel.write(outputStream, excelClass).build();
+            WriteSheet writeSheet = EasyExcel.writerSheet().build();
+            int pageNo = 1;
+            while (true) {
+                List<ExceleClass> dataList = exportFunction.pageQuery(params, pageNo, pageSize);
+                if (null == dataList || dataList.isEmpty()) {
+                    logger.warn("查询结果集为空，结束查询！");
+                    break;
+                }
+                excelWriter.write(dataList, writeSheet);
+
+                if (dataList.size() < pageSize) {
+                    logger.warn("查询结果集小于 pageSize ，结束查询!");
+                    break;
+                }
+                pageNo++;
+            }
+        } finally {
+            if (excelWriter != null) {
+                excelWriter.finish();
+            }
+        }
+
+    }
 
 }

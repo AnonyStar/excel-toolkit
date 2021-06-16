@@ -22,7 +22,9 @@ public class ExcelKitFactory {
     public static ExportExcelKit WebExportBuilder(HttpServletResponse httpServletResponse, String fileName, Class excelClass) {
         return new ExportExcelKit(httpServletResponse, fileName, excelClass);
     }
-
+    public static ExportExcelKit SreamExportBuilder(OutputStream outputStream, String fileName, Class excelClass) {
+        return new ExportExcelKit(outputStream, fileName, excelClass);
+    }
     public static ExportExcelKit ExportBuilder() {
         return new ExportExcelKit();
     }

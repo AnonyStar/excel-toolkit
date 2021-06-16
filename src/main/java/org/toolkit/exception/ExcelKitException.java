@@ -8,5 +8,8 @@ public class ExcelKitException extends RuntimeException {
     public ExcelKitException(String msg) {
         super(msg);
     }
+    public ExcelKitException() {
+        super();
+    }
 
 }
