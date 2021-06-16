@@ -50,15 +50,16 @@ public class ExportExcelKit extends EasyExcel {
     /**
      * web导出.
      * <p>
-     *     可分页获取数据进行导出.
+     * 可分页获取数据进行导出.
      * </p>
+     *
      * @param params
      * @param exportFunction
      * @param <ParamType>
      * @param <ExceleClass>
      */
     public <ParamType, ExceleClass> void exportResponse(ParamType params,
-                                                        IExportFunction<ParamType, ExceleClass> exportFunction) {
+                                                        IExportFunction<ParamType, ExceleClass> exportFunction) throws IOException {
         if (Objects.isNull(httpServletResponse) || StringUtils.isEmpty(fileName)) {
             throw new ExcelKitException("httpServletResponse 或 fileName 参数为空");
         }
@@ -66,9 +67,31 @@ public class ExportExcelKit extends EasyExcel {
         httpServletResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         httpServletResponse.setHeader("Content-disposition",
                 String.format("attachment; filename=%s", fileName));
+        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+        doProcess(params, exportFunction, outputStream);
+    }
+
+
+    /**
+     * 按输出流导出excel.
+     * @param params
+     * @param exportFunction
+     * @param <ParamType>
+     * @param <ExceleClass>
+     */
+    public <ParamType, ExceleClass> void exportStram(ParamType params,
+                                                     IExportFunction<ParamType, ExceleClass> exportFunction) {
+        if (Objects.isNull(outputStream)) {
+            throw new ExcelKitException("outputStream 参数为空");
+        }
+        doProcess(params,exportFunction,outputStream);
+    }
+
+
+
+    private <ParamType, ExceleClass> void doProcess(ParamType params, IExportFunction<ParamType, ExceleClass> exportFunction, OutputStream outputStream) {
         ExcelWriter excelWriter = null;
         try {
-            ServletOutputStream outputStream = httpServletResponse.getOutputStream();
             excelWriter = EasyExcel.write(outputStream, excelClass).build();
             WriteSheet writeSheet = EasyExcel.writerSheet().build();
             int pageNo = 1;
@@ -86,47 +109,12 @@ public class ExportExcelKit extends EasyExcel {
                 }
                 pageNo++;
             }
-        } catch (IOException e) {
-            throw new ExcelKitException();
         } finally {
             logger.info("关闭excel流资源");
             if (excelWriter != null) {
                 excelWriter.finish();
             }
         }
-    }
-
-
-    public <ParamType, ExceleClass> void exportStram(ParamType params,
-                                                        IExportFunction<ParamType, ExceleClass> exportFunction) {
-        if (Objects.isNull(outputStream)) {
-            throw new ExcelKitException("outputStream 参数为空");
-        }
-        ExcelWriter excelWriter = null;
-        try {
-            excelWriter = EasyExcel.write(outputStream, excelClass).build();
-            WriteSheet writeSheet = EasyExcel.writerSheet().build();
-            int pageNo = 1;
-            while (true) {
-                List<ExceleClass> dataList = exportFunction.pageQuery(params, pageNo, pageSize);
-                if (null == dataList || dataList.isEmpty()) {
-                    logger.warn("查询结果集为空，结束查询！");
-                    break;
-                }
-                excelWriter.write(dataList, writeSheet);
-
-                if (dataList.size() < pageSize) {
-                    logger.warn("查询结果集小于 pageSize ，结束查询!");
-                    break;
-                }
-                pageNo++;
-            }
-        } finally {
-            if (excelWriter != null) {
-                excelWriter.finish();
-            }
-        }
-
     }
 
 }
