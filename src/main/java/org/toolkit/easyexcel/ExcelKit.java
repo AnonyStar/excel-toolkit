@@ -1,6 +1,9 @@
 package org.toolkit.easyexcel;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.builder.ExcelWriterBuilder;
+import org.toolkit.easyexcel.write.StreamExportBuilder;
+import org.toolkit.easyexcel.write.WebExportBuilder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
@@ -27,15 +30,20 @@ public class ExcelKit {
     /**
      * 流输出
      * @param outputStream
-     * @param fileName
      * @param excelClass
      * @return
      */
-    public static StreamExportBuilder SreamExportBuilder(OutputStream outputStream, String fileName, Class excelClass) {
-        return StreamExportBuilder.builder(outputStream, fileName, excelClass);
+    public static StreamExportBuilder SreamExportBuilder(OutputStream outputStream, Class excelClass) {
+        return StreamExportBuilder.builder(outputStream, excelClass);
     }
-    public static ExportExcelKit ExportBuilder() {
-        return new ExportExcelKit();
+
+
+
+    public static ExcelWriterBuilder getEasyExcel(OutputStream outputStream, Class excelClass) {
+        return EasyExcel.write(outputStream, excelClass);
+    }
+    public static ExcelWriterBuilder getEasyExcel(String filePath, Class excelClass) {
+        return EasyExcel.write(filePath, excelClass);
     }
 
 }
