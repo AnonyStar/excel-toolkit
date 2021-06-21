@@ -29,6 +29,11 @@ public class RowReadStatus implements Serializable {
      */
     private boolean blank;
 
+
+    private Class headClass;
+
+
+
     public enum Status {
         /**
          * 未开始 ：初始化状态
@@ -79,5 +84,13 @@ public class RowReadStatus implements Serializable {
 
     public void setBlank(boolean blank) {
         this.blank = blank;
+    }
+
+    public Class getHeadClass() {
+        return headClass;
+    }
+
+    public void setHeadClass(Class headClass) {
+        this.headClass = headClass;
     }
 }

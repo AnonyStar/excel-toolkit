@@ -24,7 +24,7 @@ public class ExportTest {
      */
     @Test
     public void simpleWrite() {
-        String fileName = ExportTest.class.getResource("/").getPath() + "simpleWrite" + System.currentTimeMillis() + ".xlsx";
+        String fileName = ExportTest.class.getResource("/").getPath() + "simpleWrite1624264473759.xlsx";
         ExcelWriterBuilder easyExcel = ExcelKit.getEasyExcel(fileName, DemoData.class);
         LoopMergeStrategy strategy = new LoopMergeStrategy(2, 0);
         easyExcel.registerWriteHandler(strategy);
@@ -69,7 +69,9 @@ public class ExportTest {
         List<DemoData> list = new ArrayList<DemoData>();
         for (int i = 0; i < 100; i++) {
             DemoData data = new DemoData();
-            data.setString("字符串" + i);
+            if (i % 5 != 0) {
+                data.setString("字符串" + i);
+            }
             data.setDate(new Date());
             data.setDoubleData(0.56);
             list.add(data);

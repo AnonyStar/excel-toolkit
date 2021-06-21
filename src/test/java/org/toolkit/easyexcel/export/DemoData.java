@@ -7,7 +7,13 @@ import com.alibaba.excel.annotation.write.style.*;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.bouncycastle.cms.PasswordRecipient;
+import org.hibernate.validator.constraints.Length;
+import org.toolkit.easyexcel.read.MsgInfo;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @HeadRowHeight(50)
@@ -15,20 +21,25 @@ import java.util.Date;
 @ContentRowHeight(30)
 @ContentStyle(horizontalAlignment = HorizontalAlignment.CENTER)
 @HeadStyle(horizontalAlignment = HorizontalAlignment.CENTER, fillPatternType = FillPatternType.NO_FILL)
-public class DemoData {
+public class DemoData extends MsgInfo {
     @ExcelProperty("字符串标题")
     private String string;
 
     @ExcelProperty("日期标题")
     @ColumnWidth(50)
+    @NotNull(message = "不可为空")
     private Date date;
     @ExcelProperty("数字标题")
     private Double doubleData;
 
     @ExcelProperty("标题")
+    @NotNull(message = "不可为空")
     private String name;
 
     @ExcelProperty("年龄")
+    @Max(value = 10, message = "年龄过大")
+    @Min( value = 1, message = "过小")
+    @NotNull(message = "不可为空年龄")
     private Integer age;
 
     @ExcelProperty("地址")
@@ -104,5 +115,19 @@ public class DemoData {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "DemoData{" +
+                "string='" + string + '\'' +
+                ", date=" + date +
+                ", doubleData=" + doubleData +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", price=" + price +
+                ", ignore='" + ignore + '\'' +
+                '}';
     }
 }

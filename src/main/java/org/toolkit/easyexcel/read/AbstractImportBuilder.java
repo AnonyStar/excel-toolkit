@@ -1,7 +1,9 @@
 package org.toolkit.easyexcel.read;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import org.apache.poi.ss.formula.functions.T;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.InputStream;
 import java.util.List;
@@ -11,8 +13,9 @@ import java.util.Map;
  * @author: zhoucx
  * @time:
  */
-public class AbstractImportBuilder {
+public abstract class AbstractImportBuilder {
 
+    protected ExcelReaderBuilder readerBuilder;
 
     /**
      * 同步读取返回数据.
@@ -40,7 +43,7 @@ public class AbstractImportBuilder {
     }
 
     /**
-     * 无映射实体导入
+     * 无映射实体导入.
      * @param inputStream
      * @param sheetIndex
      * @return
@@ -49,10 +52,6 @@ public class AbstractImportBuilder {
         return EasyExcel.read(inputStream).sheet(sheetIndex).doReadSync();
     }
 
-
-    public void simpleRead(InputStream inputStream, Integer sheetIndex, ExcelReadAnalysisListener listener) {
-        EasyExcel.read(inputStream,listener).sheet(sheetIndex).doRead();
-    }
 
 
 }

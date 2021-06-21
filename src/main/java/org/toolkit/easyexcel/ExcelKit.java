@@ -2,10 +2,13 @@ package org.toolkit.easyexcel;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
+import org.toolkit.easyexcel.read.ReadProcessHandler;
+import org.toolkit.easyexcel.read.StreamImportBuilder;
 import org.toolkit.easyexcel.write.StreamExportBuilder;
 import org.toolkit.easyexcel.write.WebExportBuilder;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 public class ExcelKit {
@@ -39,11 +42,18 @@ public class ExcelKit {
 
 
 
+
     public static ExcelWriterBuilder getEasyExcel(OutputStream outputStream, Class excelClass) {
         return EasyExcel.write(outputStream, excelClass);
     }
     public static ExcelWriterBuilder getEasyExcel(String filePath, Class excelClass) {
         return EasyExcel.write(filePath, excelClass);
     }
+
+
+    public static <T> StreamImportBuilder StreamImportBuilder(InputStream inputStream, Class<T> headClass, ReadProcessHandler<T> processHandler, OutputStream outputStream) {
+        return StreamImportBuilder.builder(inputStream, headClass, processHandler, outputStream);
+    }
+
 
 }
