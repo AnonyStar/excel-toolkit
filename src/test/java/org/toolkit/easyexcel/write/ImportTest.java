@@ -15,7 +15,9 @@ import org.toolkit.easyexcel.ExcelKit;
 import org.toolkit.easyexcel.export.DemoData;
 import org.toolkit.easyexcel.export.ExportTest;
 import org.toolkit.easyexcel.read.ReadProcessHandler;
+import org.toolkit.easyexcel.read.context.DefaultFileSystem;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -56,9 +58,9 @@ public class ImportTest {
     @Test
     public void tstWrite() throws FileNotFoundException {
         String fileName = ExportTest.class.getResource("/").getPath() + "simpleWrite1624264473759.xlsx";
-        ExcelKit.StreamImportBuilder(new FileInputStream(fileName), DemoData.class, (t, analysisContext) -> {
+        ExcelKit.StreamImportBuilder(new DefaultFileSystem(new File(fileName)), DemoData.class, (t, analysisContext) -> {
             System.out.println("业务处理....." + t);
-        }, new FileOutputStream(fileName)).doRead();
+        }).doRead();
     }
 
 

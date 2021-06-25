@@ -2,6 +2,7 @@ package org.toolkit.easyexcel.read;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -36,8 +37,12 @@ public class ExcelValiHelper {
                 i++;
             }
         }
-        System.out.println("校验信息：" + resultMap);
-
+       if (!resultMap.isEmpty()){
+           RowReadStatus readStatus = new RowReadStatus();
+           readStatus.setMessage(JSON.toJSONString(resultMap));
+           readStatus.setStatus(false);
+           return readStatus;
+       }
         return null;
     }
 }

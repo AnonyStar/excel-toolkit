@@ -1,6 +1,5 @@
 package org.toolkit.easyexcel.read.context;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.toolkit.easyexcel.read.RowReadStatus;
 
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author: zhoucx
  * @time: 2021-06-18
  */
-public class SimpleReadContext implements ReadContext<RowReadStatus> {
+public class SimpleReadContext<T> implements ReadContext<T> {
 
     /**
      * 执行超时时间 单位秒
@@ -27,8 +26,15 @@ public class SimpleReadContext implements ReadContext<RowReadStatus> {
 
     private int sheetCounts;
 
+    private FileSystem fileSystem;
+
     /** 对于当前Sheet所有的行的读取状态记录 */
     private List<RowReadStatus> readStatuses = new CopyOnWriteArrayList<>();
+
+    public SimpleReadContext(FileSystem fileSystem) {
+        this.fileSystem = fileSystem;
+
+    }
 
     @Override
     public int getSheetCounts() {
@@ -51,12 +57,12 @@ public class SimpleReadContext implements ReadContext<RowReadStatus> {
     }
 
     @Override
-    public <T> void setFileSystem(T fileSystem) {
-
+    public void setFileSystem(FileSystem fileSystem) {
+        this.fileSystem = fileSystem;
     }
 
     @Override
-    public <T> T getFileSystem() {
-        return null;
+    public FileSystem getFileSystem() {
+        return this.fileSystem;
     }
 }

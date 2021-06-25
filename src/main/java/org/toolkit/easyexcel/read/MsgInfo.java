@@ -8,9 +8,9 @@ import com.alibaba.excel.annotation.ExcelProperty;
  */
 public class MsgInfo {
 
-    @ExcelProperty(value = "信息", index = -2)
+    @ExcelProperty(value = "处理结果信息", index = -2)
     private String message;
-    @ExcelProperty(value = "状态", index = -1)
+    @ExcelProperty(value = "处理状态", index = -1)
     private String status;
 
     public String getMessage() {

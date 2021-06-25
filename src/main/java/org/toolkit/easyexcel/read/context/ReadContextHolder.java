@@ -1,6 +1,7 @@
 package org.toolkit.easyexcel.read.context;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author: zhoucx
@@ -21,5 +22,11 @@ public class ReadContextHolder {
 
     public static void removeReadContext(String key) {
         LocalReadContextStrategy.getInstance().removeReadContext(key);
+    }
+
+    public static String set(ReadContext readContext) {
+        String uid = UUID.randomUUID().toString();
+        set(uid, readContext);
+        return uid;
     }
 }

@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import org.toolkit.easyexcel.read.ReadProcessHandler;
 import org.toolkit.easyexcel.read.StreamImportBuilder;
+import org.toolkit.easyexcel.read.context.FileSystem;
 import org.toolkit.easyexcel.write.StreamExportBuilder;
 import org.toolkit.easyexcel.write.WebExportBuilder;
 
@@ -51,8 +52,8 @@ public class ExcelKit {
     }
 
 
-    public static <T> StreamImportBuilder StreamImportBuilder(InputStream inputStream, Class<T> headClass, ReadProcessHandler<T> processHandler, OutputStream outputStream) {
-        return StreamImportBuilder.builder(inputStream, headClass, processHandler, outputStream);
+    public static <T> StreamImportBuilder StreamImportBuilder(FileSystem fileSystem, Class<T> headClass, ReadProcessHandler<T> processHandler) {
+        return StreamImportBuilder.builder(fileSystem, headClass, processHandler);
     }
 
 

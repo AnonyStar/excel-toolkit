@@ -2,6 +2,8 @@ package org.toolkit.easyexcel.read.context;
 
 import org.toolkit.easyexcel.read.RowReadStatus;
 
+import java.io.OutputStream;
+
 /**
  * 读取时的上下文环境.
  * @author: zhoucx
@@ -27,9 +29,11 @@ public interface ReadContext<T> {
 
     public void setStatus(Integer rowIndex, boolean status, String message);
 
-    <T> void setFileSystem(T fileSystem);
+    void setFileSystem(FileSystem fileSystem);
 
-    <T> T getFileSystem();
+    FileSystem getFileSystem();
+
+
 
 
 }
