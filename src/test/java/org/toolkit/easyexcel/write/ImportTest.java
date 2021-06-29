@@ -15,12 +15,17 @@ import org.toolkit.easyexcel.ExcelKit;
 import org.toolkit.easyexcel.export.DemoData;
 import org.toolkit.easyexcel.export.ExportTest;
 import org.toolkit.easyexcel.read.ReadProcessHandler;
+import org.toolkit.easyexcel.read.RowReadStatus;
 import org.toolkit.easyexcel.read.context.DefaultFileSystem;
+import org.toolkit.easyexcel.read.context.ReadContext;
+import org.toolkit.easyexcel.read.context.ReadContextHolder;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: zhoucx
@@ -58,9 +63,48 @@ public class ImportTest {
     @Test
     public void tstWrite() throws FileNotFoundException {
         String fileName = ExportTest.class.getResource("/").getPath() + "simpleWrite1624264473759.xlsx";
-        ExcelKit.StreamImportBuilder(new DefaultFileSystem(new File(fileName)), DemoData.class, (t, analysisContext) -> {
+        String read = ExcelKit.asyncRead(new DefaultFileSystem(new File(fileName)), DemoData.class, (t, analysisContext) -> {
             System.out.println("业务处理....." + t);
-        }).doRead();
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        new Thread(() -> {
+            while (true) {
+                ReadContext readContext = ReadContextHolder.get(read);
+                RowReadStatus.Status sheetStatus = readContext.getReadSheetStatus();
+                int readIndex = readContext.getReadIndex();
+                int sheetCounts = readContext.getSheetCounts();
+                re
+                System.out.println("解析处理完：" + read + "状态" + sheetStatus.getStatus() + "，当前读取行：" + readIndex +" sheetcount" + sheetCounts);
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+        while (true) {
+            try {
+                TimeUnit.SECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    @Test
+    public void readTest() throws FileNotFoundException {
+        String fileName = ExportTest.class.getResource("/").getPath() + "simpleWrite1624264473759.xlsx";
+        List<DemoData> demoData = ExcelKit.syncRead(new DefaultFileSystem(new File(fileName)), DemoData.class);
+        System.out.println(demoData);
     }
 
 

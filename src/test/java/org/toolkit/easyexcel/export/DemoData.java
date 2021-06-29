@@ -6,13 +6,11 @@ import com.alibaba.excel.annotation.format.NumberFormat;
 import com.alibaba.excel.annotation.write.style.*;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.bouncycastle.cms.PasswordRecipient;
-import org.hibernate.validator.constraints.Length;
+import org.toolkit.core.annotation.ExcelFirstMainly;
 import org.toolkit.easyexcel.read.MsgInfo;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -22,6 +20,7 @@ import java.util.Date;
 @ContentStyle(horizontalAlignment = HorizontalAlignment.CENTER)
 @HeadStyle(horizontalAlignment = HorizontalAlignment.CENTER, fillPatternType = FillPatternType.NO_FILL)
 public class DemoData extends MsgInfo {
+
     @ExcelProperty("字符串标题")
     private String string;
 
@@ -37,7 +36,8 @@ public class DemoData extends MsgInfo {
     private String name;
 
     @ExcelProperty("年龄")
-    @Max(value = 10, message = "年龄过大")
+    @ExcelFirstMainly(key = "name")
+    @Max(value = 100, message = "年龄过大")
     @Min( value = 1, message = "过小")
     @NotNull(message = "不可为空年龄")
     private Integer age;
@@ -45,8 +45,8 @@ public class DemoData extends MsgInfo {
     @ExcelProperty("地址")
     private String address;
     @ExcelProperty("价格")
-    @NumberFormat("#.##")
-    private Long price;
+    @NumberFormat("###,###.##")
+    private Double price;
     /**
      * 忽略这个字段
      */
@@ -109,11 +109,11 @@ public class DemoData extends MsgInfo {
         this.address = address;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

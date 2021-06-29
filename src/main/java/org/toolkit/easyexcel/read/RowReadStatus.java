@@ -38,20 +38,29 @@ public class RowReadStatus implements Serializable {
         /**
          * 未开始 ：初始化状态
          */
-        NOT_STARTED,
+        NOT_STARTED("未开始"),
 
         /**
          * 已完成 ： ☞指一个sheet 读取完成.
          */
-        FINISH,
+        FINISH("已完成"),
         /**
          * 读取中
          */
-        READING,
+        READING("读取中"),
         /**
          * 未完成，出现错误终止
          */
-        UNFINISHED;
+        UNFINISHED("未完成");
+
+        private String status;
+        Status(String status) {
+            this.status = status;
+        }
+
+        public String getStatus() {
+            return status;
+        }
     }
 
     public int getRowIndex() {

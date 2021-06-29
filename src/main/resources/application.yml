@@ -6,7 +6,7 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
   application:
-    name: smart-event-driven-examples
+    name: excel-toolkit
   profiles:
     active: DEV
 
@@ -14,7 +14,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306?autoReconnect=true&allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://localhost:3306?domain_driven=true&allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
       username: root
       password: root
       initial-size: 50
@@ -34,27 +34,11 @@ spring:
         url-pattern: /druid/*
       filters: config,stat,slf4j
 
-smart:
-  event-driven:
-    rocketmq:
-      name-server: 10.251.76.2:9876;10.251.76.3:9876;10.251.76.4:9876;10.251.76.5:9876 # 10.251.64.105:9876;10.251.64.130:9876;10.251.64.80:9876;10.251.64.53:9876
-      namespace: noah-ns
-      publishable-notifier-topic: ${spring.application.name}-publishable-notifier
-      consumer:
-        enabled: true
-      producer:
-        group: ${spring.application.name}-producer-group
-
-swagger.enabled: true
-swagger.title: 事件驱动组件样例
-swagger.description: 事件驱动组件样例
-swagger.version: v0.0.1
-swagger.base-package: org.smartframework.event.driven.examples
-swagger.base-path: /**
-swagger.exclude-path: /error, /ops/**
 
 logging:
   level:
-    root: INFO
+    root: debug
     org.springframework: INFO
     com.alibaba.druid.pool: ERROR
+    org.tookit: debug
+

@@ -26,8 +26,8 @@ public class ExportTest {
     public void simpleWrite() {
         String fileName = ExportTest.class.getResource("/").getPath() + "simpleWrite1624264473759.xlsx";
         ExcelWriterBuilder easyExcel = ExcelKit.getEasyExcel(fileName, DemoData.class);
-        LoopMergeStrategy strategy = new LoopMergeStrategy(2, 0);
-        easyExcel.registerWriteHandler(strategy);
+      //  LoopMergeStrategy strategy = new LoopMergeStrategy(2, 0);
+       // easyExcel.registerWriteHandler(strategy);
         easyExcel.sheet().doWrite(dataList());
     }
 
@@ -35,7 +35,7 @@ public class ExportTest {
     public void streamPageWrite() throws FileNotFoundException {
         long timeMillis = System.currentTimeMillis();
         String fileName = ExportTest.class.getResource("/").getPath() + "simpleWrite" + System.currentTimeMillis() + ".xlsx";
-        StreamExportBuilder streamExportBuilder = ExcelKit.SreamExportBuilder(new FileOutputStream(fileName), DemoData.class);
+        StreamExportBuilder streamExportBuilder = ExcelKit.sreamExportBuilder(new FileOutputStream(fileName), DemoData.class);
         Param param = new Param();
         streamExportBuilder.pageSize(209715);
         streamExportBuilder.export(param, (param1, pageNum, pageSize) -> dataList(param1, pageNum, pageSize));
@@ -52,7 +52,7 @@ public class ExportTest {
                 data.setDoubleData(0.56);
                 data.setAddress("福建省福州市仓山区金桔路公园道永辉超市");
                 data.setName("永辉超市");
-                data.setPrice(1000L);
+                data.setPrice(1000D);
                 data.setAge(11);
                 list.add(data);
             }
@@ -71,9 +71,13 @@ public class ExportTest {
             DemoData data = new DemoData();
             if (i % 5 != 0) {
                 data.setString("字符串" + i);
+                data.setName("标题-" + i);
             }
+            data.setAge(i);
             data.setDate(new Date());
-            data.setDoubleData(0.56);
+            data.setDoubleData(Math.random());
+            data.setPrice(Math.random() * 7);
+            data.setAddress("福建省福州市仓山区公园道-1永辉超市");
             list.add(data);
         }
         return list;

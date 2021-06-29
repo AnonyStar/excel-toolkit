@@ -2,7 +2,8 @@ package org.toolkit.exception;
 
 public enum ErrorInfo {
 
-    MISSING_PARAMETERS(10001,"模板参数缺失异常！");
+    MISSING_PARAMETERS(10001,"模板参数缺失异常！"),
+    HANDLER_EXCEPTION(99999,"业务处理异常");
 
     ErrorInfo(Integer code, String msg) {
         this.code = code;

@@ -18,7 +18,6 @@ public class LocalReadContextStrategy implements IReadContextStrategy {
     @Override
     public void setReadContext(String key, ReadContext value) {
         READ_CONTEXT.put(key, value);
-        // todo 删除原始文件资源
     }
 
     @Override
@@ -31,6 +30,7 @@ public class LocalReadContextStrategy implements IReadContextStrategy {
         ReadContext context = READ_CONTEXT.remove(key);
         if (Objects.nonNull(context)) {
             // todo 如果上下文存在则与要同步删除原始文件.
+            context.getFileSystem().removeSourcess();
         }
     }
 

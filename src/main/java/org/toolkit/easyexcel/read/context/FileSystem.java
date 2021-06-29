@@ -23,4 +23,7 @@ public interface FileSystem<T> {
 
     T getFileSystem();
 
+    void removeSourcess();
+
+    T getResultFileSystem();
 }
