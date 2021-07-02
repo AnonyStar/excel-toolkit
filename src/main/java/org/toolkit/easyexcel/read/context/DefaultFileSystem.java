@@ -1,5 +1,6 @@
 package org.toolkit.easyexcel.read.context;
 
+import javax.persistence.Transient;
 import java.io.*;
 
 /**
@@ -9,8 +10,9 @@ import java.io.*;
 public class DefaultFileSystem implements FileSystem<File>{
 
     private File file;
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private transient InputStream inputStream;
+    private transient OutputStream outputStream;
+
     private File resultFileSystem;
 
     public DefaultFileSystem(File file) throws FileNotFoundException {

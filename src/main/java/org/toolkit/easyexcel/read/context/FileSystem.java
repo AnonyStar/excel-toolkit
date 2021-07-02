@@ -3,12 +3,13 @@ package org.toolkit.easyexcel.read.context;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 
 /**
  * @author: zhoucx
  * @time: 2021-06-22
  */
-public interface FileSystem<T> {
+public interface FileSystem<T> extends Serializable {
 
 
     OutputStream getOutputStream();

@@ -28,5 +28,6 @@ public interface IReadContextStrategy {
      */
     void removeReadContext(String key);
 
+    void  refreshReadContext(ReadContext value);
 
 }

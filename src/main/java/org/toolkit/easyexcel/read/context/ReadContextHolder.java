@@ -18,6 +18,7 @@ public class ReadContextHolder {
     }
 
     private static void set(String key, ReadContext context) {
+        context.setContexttKey(key);
         readContextStrategy.setReadContext(key, context);
     }
 
@@ -25,14 +26,17 @@ public class ReadContextHolder {
         readContextStrategy.removeReadContext(key);
     }
 
-    public static String init(ReadContext readContext, boolean remoteContext) {
-        String uid = UUID.randomUUID().toString();
-        if (remoteContext) {
+    public static void refreshReadContext(ReadContext value) {
+        readContextStrategy.refreshReadContext(value);
+    }
 
-        }else {
-            readContextStrategy = LocalReadContextStrategy.getInstance();
-        }
+    public static String initContext(ReadContext readContext) {
+        String uid = UUID.randomUUID().toString();
         set(uid, readContext);
         return uid;
+    }
+
+    public static void init(IReadContextStrategy instance) {
+        readContextStrategy = instance;
     }
 }

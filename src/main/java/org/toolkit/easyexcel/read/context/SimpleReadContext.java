@@ -2,6 +2,7 @@ package org.toolkit.easyexcel.read.context;
 
 import org.toolkit.easyexcel.read.RowReadStatus;
 
+import javax.persistence.Transient;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,9 +19,13 @@ public class SimpleReadContext<T> implements ReadContext<T> {
 
     private RowReadStatus.Status status = RowReadStatus.Status.NOT_STARTED;
 
+    private RowReadStatus.Status currentRowstatus = RowReadStatus.Status.NOT_STARTED;
+
     private RowReadStatus.Status sheetStatus = RowReadStatus.Status.NOT_STARTED;
 
     private RowReadStatus.Status excelStatus = RowReadStatus.Status.NOT_STARTED;
+
+    private String contexttKey;
 
     private volatile int readIndex = 0;
 
@@ -45,9 +50,13 @@ public class SimpleReadContext<T> implements ReadContext<T> {
         this.createTime = System.currentTimeMillis();
     }
 
+    public SimpleReadContext() {
+        this.createTime = System.currentTimeMillis();
+    }
+
     @Override
     public int getSheetCounts() {
-        return 0;
+        return sheetCounts;
     }
     @Override
     public void setReadIndex(int readIndex) {
@@ -107,7 +116,25 @@ public class SimpleReadContext<T> implements ReadContext<T> {
     }
 
     @Override
+    public String getContexttKey() {
+        return contexttKey;
+    }
+
+    @Override
+    public void setContexttKey(String contexttKey) {
+        this.contexttKey = contexttKey;
+    }
+
+    @Override
     public long executeTimeMilliseconds() {
         return System.currentTimeMillis() - createTime;
+    }
+    @Override
+    public void setCurrentRowstatus(RowReadStatus.Status currentRowstatus) {
+        this.currentRowstatus = currentRowstatus;
+    }
+    @Override
+    public RowReadStatus.Status getCurrentRowstatus() {
+        return currentRowstatus;
     }
 }

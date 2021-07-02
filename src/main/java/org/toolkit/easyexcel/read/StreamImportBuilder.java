@@ -1,7 +1,6 @@
 package org.toolkit.easyexcel.read;
 
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.sun.istack.internal.Nullable;
@@ -21,15 +20,14 @@ public class StreamImportBuilder<T> extends AbstractImportBuilder{
 
 
     private <T> StreamImportBuilder(FileSystem fileSystem, Class<T> headClass, ReadProcessHandler<T> processHandler, boolean remoteContext) {
-        ReadContext readContext = new SimpleReadContext(fileSystem);
-        readContextKey = ReadContextHolder.init(readContext, remoteContext);
+        ReadContext readContext = new SimpleReadContext();
+        readContextKey = ReadContextHolder.initContext(readContext);
         excelWriter = EasyExcel.write(fileSystem.getOutputStream(), headClass).build();
         readerBuilder = EasyExcel.read(fileSystem.getInputStream(), headClass, new ExcelReadAnalysisListener(
                 new SpringTransactionExecutor(),
                 processHandler,
                 readContext,
                 excelWriter));
-
     }
 
     public <T> StreamImportBuilder(FileSystem fileSystem, Class<T> headClass) {

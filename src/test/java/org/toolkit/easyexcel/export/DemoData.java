@@ -47,6 +47,27 @@ public class DemoData extends MsgInfo {
     @ExcelProperty("价格")
     @NumberFormat("###,###.##")
     private Double price;
+
+    @ExcelProperty("商品描述")
+    private String descmarks;
+
+    @ExcelProperty("商品有效期")
+    private String validPeriod;
+
+    @ExcelProperty("测试字段1")
+    private String test1;
+    @ExcelProperty("测试字段2")
+    private String test2;
+    @ExcelProperty("测试字段3")
+    private String test3;
+    @ExcelProperty("测试字段4")
+    private String test4;
+    @ExcelProperty("测试字段5")
+    private String test5;
+    @ExcelProperty("测试字段6")
+    private String test6;
+    @ExcelProperty("测试字段7")
+    private String test7;
     /**
      * 忽略这个字段
      */
@@ -115,6 +136,78 @@ public class DemoData extends MsgInfo {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getDescmarks() {
+        return descmarks;
+    }
+
+    public void setDescmarks(String descmarks) {
+        this.descmarks = descmarks;
+    }
+
+    public String getValidPeriod() {
+        return validPeriod;
+    }
+
+    public void setValidPeriod(String validPeriod) {
+        this.validPeriod = validPeriod;
+    }
+
+    public String getTest1() {
+        return test1;
+    }
+
+    public void setTest1(String test1) {
+        this.test1 = test1;
+    }
+
+    public String getTest2() {
+        return test2;
+    }
+
+    public void setTest2(String test2) {
+        this.test2 = test2;
+    }
+
+    public String getTest3() {
+        return test3;
+    }
+
+    public void setTest3(String test3) {
+        this.test3 = test3;
+    }
+
+    public String getTest4() {
+        return test4;
+    }
+
+    public void setTest4(String test4) {
+        this.test4 = test4;
+    }
+
+    public String getTest5() {
+        return test5;
+    }
+
+    public void setTest5(String test5) {
+        this.test5 = test5;
+    }
+
+    public String getTest6() {
+        return test6;
+    }
+
+    public void setTest6(String test6) {
+        this.test6 = test6;
+    }
+
+    public String getTest7() {
+        return test7;
+    }
+
+    public void setTest7(String test7) {
+        this.test7 = test7;
     }
 
     @Override

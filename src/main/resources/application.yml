@@ -14,7 +14,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306?domain_driven=true&allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://localhost:3306/domain_driven?autoReconnect=true&allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
       username: root
       password: root
       initial-size: 50
@@ -33,8 +33,16 @@ spring:
         enabled: true
         url-pattern: /druid/*
       filters: config,stat,slf4j
+  jpa:
+    hibernate:
+      #     更新或者创建数据表结构
+      ddl-auto: update
+    #    控制台显示SQL
+    show-sql: true
 
-
+excel:
+  config:
+    remote: false
 logging:
   level:
     root: debug

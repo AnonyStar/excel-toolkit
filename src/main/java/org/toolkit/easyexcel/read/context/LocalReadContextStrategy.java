@@ -34,6 +34,10 @@ public class LocalReadContextStrategy implements IReadContextStrategy {
         }
     }
 
+    @Override
+    public void refreshReadContext(ReadContext value) {
+
+    }
 
 
     public static LocalReadContextStrategy getInstance() {

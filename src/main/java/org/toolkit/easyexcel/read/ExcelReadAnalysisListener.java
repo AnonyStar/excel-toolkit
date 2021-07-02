@@ -9,6 +9,7 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.toolkit.easyexcel.read.context.ReadContext;
+import org.toolkit.easyexcel.read.context.ReadContextHolder;
 import org.toolkit.exception.ErrorInfo;
 import org.toolkit.exception.ExcelKitException;
 
@@ -75,15 +76,18 @@ public class ExcelReadAnalysisListener<T> extends AnalysisEventListener<T> {
                 if (Objects.nonNull(readStatus) && readStatus.isStatus()) {
                     readProcessHandler.doprocess(data, analysisContext);
                     status.get().set(data, RowReadStatus.Status.FINISH.getStatus());
+                    readContext.setCurrentRowstatus(RowReadStatus.Status.FINISH);
                 } else {
                     message.get().set(data, readStatus.getMessage());
                     status.get().set(data, RowReadStatus.Status.UNFINISHED.getStatus());
+                    readContext.setCurrentRowstatus(RowReadStatus.Status.UNFINISHED);
                 }
 
             } catch (Exception e) {
                 if (Objects.nonNull(message.get()) && Objects.nonNull(status.get())) {
                     message.get().set(data, "数据处理异常！");
                     status.get().set(data, RowReadStatus.Status.UNFINISHED.getStatus());
+                    readContext.setCurrentRowstatus(RowReadStatus.Status.UNFINISHED);
                 } else {
                     throw new ExcelKitException(ErrorInfo.HANDLER_EXCEPTION);
                 }
@@ -91,6 +95,7 @@ public class ExcelReadAnalysisListener<T> extends AnalysisEventListener<T> {
             } finally {
                 readContext.setReadIndex(analysisContext.readRowHolder().getRowIndex());
                 readContext.setSheetCounts(analysisContext.readSheetHolder().getTotal());
+                ReadContextHolder.refreshReadContext(readContext);
                 logger.debug("处理数据：第{}行数据 ：{}",analysisContext.readRowHolder().getRowIndex(), data);
                 dataList.add(data);
                 if (dataList.size() > 1000) {
@@ -109,6 +114,7 @@ public class ExcelReadAnalysisListener<T> extends AnalysisEventListener<T> {
         excelWriter.finish();
         ExcelHelper.removeFirstMainlyCache();
         readContext.setReadSheetStatus(RowReadStatus.Status.FINISH, null);
+        ReadContextHolder.refreshReadContext(readContext);
         //readContext.getFileSystem().removeSourcess();
     }
 

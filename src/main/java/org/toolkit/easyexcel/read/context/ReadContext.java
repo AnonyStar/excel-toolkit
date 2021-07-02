@@ -3,6 +3,7 @@ package org.toolkit.easyexcel.read.context;
 import org.toolkit.easyexcel.read.RowReadStatus;
 
 import java.io.OutputStream;
+import java.io.Serializable;
 
 /**
  * 读取时的上下文环境.
@@ -10,7 +11,7 @@ import java.io.OutputStream;
  * @author: zhoucx
  * @time: 2021-06-18
  */
-public interface ReadContext<T> {
+public interface ReadContext<T> extends Serializable {
 
 
     /**
@@ -45,9 +46,15 @@ public interface ReadContext<T> {
 
     FileSystem getFileSystem();
 
-    public String getResultMessage();
+    String getResultMessage();
 
     long executeTimeMilliseconds();
 
+    void setCurrentRowstatus(RowReadStatus.Status currentRowstatus);
 
+    RowReadStatus.Status getCurrentRowstatus();
+
+    String getContexttKey();
+
+    void setContexttKey(String contexttKey);
 }

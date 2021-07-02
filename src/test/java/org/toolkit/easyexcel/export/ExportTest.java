@@ -1,7 +1,6 @@
 package org.toolkit.easyexcel.export;
 
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
-import com.alibaba.excel.write.merge.LoopMergeStrategy;
 import org.junit.Test;
 import org.toolkit.easyexcel.ExcelKit;
 import org.toolkit.easyexcel.write.StreamExportBuilder;
@@ -24,11 +23,15 @@ public class ExportTest {
      */
     @Test
     public void simpleWrite() {
+        long timeMillis = System.currentTimeMillis();
+
         String fileName = ExportTest.class.getResource("/").getPath() + "simpleWrite1624264473759.xlsx";
         ExcelWriterBuilder easyExcel = ExcelKit.getEasyExcel(fileName, DemoData.class);
       //  LoopMergeStrategy strategy = new LoopMergeStrategy(2, 0);
        // easyExcel.registerWriteHandler(strategy);
         easyExcel.sheet().doWrite(dataList());
+        System.out.println("耗时：" + (System.currentTimeMillis() - timeMillis));
+
     }
 
     @Test
@@ -73,11 +76,20 @@ public class ExportTest {
                 data.setString("字符串" + i);
                 data.setName("标题-" + i);
             }
-            data.setAge(i);
+            data.setAge(i % 120);
             data.setDate(new Date());
             data.setDoubleData(Math.random());
             data.setPrice(Math.random() * 7);
             data.setAddress("福建省福州市仓山区公园道-1永辉超市");
+            data.setDescmarks(" 直接写，这里注意，finish的时候会自动关闭OutputStream,当然你外面再关闭流问题不大");
+            data.setValidPeriod(new Date().toString());
+            data.setTest1(".导入Excel文件, 单元格格式使用文本或者常规, 防止出现不可预测异常");
+            data.setTest2(".导入Excel文件, 单元格格式使用文本或者常规, 防止出现不可预测异常");
+            data.setTest3(".导入Excel文件, 单元格格式使用文本或者常规, 防止出现不可预测异常");
+            data.setTest4(".导入Excel文件, 单元格格式使用文本或者常规, 防止出现不可预测异常");
+            data.setTest5(".导入Excel文件, 单元格格式使用文本或者常规, 防止出现不可预测异常");
+            data.setTest6(".导入Excel文件, 单元格格式使用文本或者常规, 防止出现不可预测异常");
+            data.setTest6("第一行有效单元格内必须包含内容并且以第一行为依据, 导入Excel文件列数必须等于标注注解的属性数量");
             list.add(data);
         }
         return list;
