@@ -8,13 +8,13 @@ import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.util.List;
 
-public class MyMergeStrategy<T> extends AbstractMergeStrategy {
+public class DefaultMergeStrategy<T> extends AbstractMergeStrategy {
 
     private List<T> fruitList;
     private List<Integer> fruitGroupCount;
     private Sheet sheet;
 
-    public MyMergeStrategy(List<T> fruitList, List<Integer> fruitGroupCount) {
+    public DefaultMergeStrategy(List<T> fruitList, List<Integer> fruitGroupCount) {
         this.fruitList = fruitList;
         this.fruitGroupCount = fruitGroupCount;
     }

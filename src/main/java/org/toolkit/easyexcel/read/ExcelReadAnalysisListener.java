@@ -41,7 +41,6 @@ public class ExcelReadAnalysisListener<T> extends AnalysisEventListener<T> {
     private ExcelWriter excelWriter;
     private WriteSheet writeSheet;
 
-    private ExcelFirstMainlyHelper excelFirstMainlyHelper;
 
     public ExcelReadAnalysisListener(ITransactionExecutor transactionExecutor,
                                      ReadProcessHandler readProcessHandler,

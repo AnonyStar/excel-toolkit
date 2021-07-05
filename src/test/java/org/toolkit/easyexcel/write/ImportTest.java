@@ -87,7 +87,8 @@ public class ImportTest {
                 System.out.println("解析处理完：" + read + "状态" + sheetStatus.getStatus() +
                         "，当前读取行：" + readIndex +" sheetcount" + sheetCounts +
                         " 当前行状态：" + readContext.getCurrentRowstatus().getStatus() +
-                        " , 耗费时间：" + readContext.executeTimeMilliseconds());
+                        " , 耗费时间：" + readContext.executeTimeMilliseconds() +
+                        ", 返回文档：" + readContext.getFileSystem().getResultFileSystem());
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
@@ -115,7 +116,7 @@ public class ImportTest {
         ReadContext readContext = new SimpleReadContext(fileSystem);
         byte[] serialize = SerializeUtil.serialize(readContext);
         String key  = ReadContextHolder.initContext(readContext);
-        IReadContextStrategy instance = RedisReadContextStrategy.getInstance();
+       // IReadContextStrategy instance = RedisReadContextStrategy.getInstance();
         System.out.println(key);
         ReadContext context = ReadContextHolder.get(key);
         System.out.println(context);

@@ -42,7 +42,11 @@ spring:
 
 excel:
   config:
-    remote: false
+    enabled: true
+    remote: true
+    redisson:
+      nodes: redis://127.0.0.1:6379
+      node-type: single
 logging:
   level:
     root: debug

@@ -3,7 +3,7 @@ package org.toolkit.easyexcel.read;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.toolkit.easyexcel.read.context.SpringContextHolder;
+import org.toolkit.config.SpringContextHolder;
 import org.toolkit.exception.ErrorInfo;
 import org.toolkit.exception.ExcelKitException;
 

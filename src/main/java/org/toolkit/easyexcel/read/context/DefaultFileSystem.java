@@ -1,6 +1,5 @@
 package org.toolkit.easyexcel.read.context;
 
-import javax.persistence.Transient;
 import java.io.*;
 
 /**
@@ -10,6 +9,10 @@ import java.io.*;
 public class DefaultFileSystem implements FileSystem<File>{
 
     private File file;
+
+    /**
+     * 不进行序列化传输.
+     */
     private transient InputStream inputStream;
     private transient OutputStream outputStream;
 

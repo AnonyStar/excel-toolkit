@@ -1,5 +1,6 @@
 package org.toolkit.easyexcel.read.context;
 
+import com.alibaba.fastjson.JSON;
 import org.redisson.Redisson;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
@@ -17,19 +18,12 @@ public class RedisReadContextStrategy implements IReadContextStrategy {
     private final RedissonClient redissonClient;
 
 
-    public RedisReadContextStrategy(RedissonClient redissonClient) {
+    private RedisReadContextStrategy(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;
     }
 
-    public static IReadContextStrategy getInstance() {
-
-        //创建配置
-        Config config = new Config();
-        //指定使用单节点部署方式
-        config.useSingleServer().setAddress("redis://127.0.0.1:6379");
-        //创建客户端(发现创建RedissonClient非常耗时，基本在2秒-4秒左右)
-        RedissonClient redisson = Redisson.create(config);
-        return new RedisReadContextStrategy(redisson);
+    public static IReadContextStrategy getInstance(RedissonClient redissonClient) {
+        return new RedisReadContextStrategy(redissonClient);
 
     }
 
@@ -37,13 +31,15 @@ public class RedisReadContextStrategy implements IReadContextStrategy {
     public void setReadContext(String key, ReadContext value) {
         RBucket<Object> bucket = redissonClient.getBucket(key);
         bucket.set(SerializeUtil.serialize(value));
+       // bucket.set(value);
     }
 
     @Override
     public ReadContext getReadContext(String key) {
         RBucket<Object> bucket = redissonClient.getBucket(key);
-        ReadContext deserialize = (ReadContext) SerializeUtil.unserialize((byte[]) bucket.get());
-        return deserialize;
+        //ReadContext readContext = (ReadContext) bucket.get();
+       ReadContext readContext = (ReadContext) SerializeUtil.unserialize((byte[]) bucket.get());
+        return readContext;
     }
 
     @Override

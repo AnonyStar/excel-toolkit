@@ -21,6 +21,7 @@ public class StreamImportBuilder<T> extends AbstractImportBuilder{
 
     private <T> StreamImportBuilder(FileSystem fileSystem, Class<T> headClass, ReadProcessHandler<T> processHandler, boolean remoteContext) {
         ReadContext readContext = new SimpleReadContext();
+        readContext.setFileSystem(fileSystem);
         readContextKey = ReadContextHolder.initContext(readContext);
         excelWriter = EasyExcel.write(fileSystem.getOutputStream(), headClass).build();
         readerBuilder = EasyExcel.read(fileSystem.getInputStream(), headClass, new ExcelReadAnalysisListener(

@@ -1,12 +1,9 @@
-package org.toolkit.easyexcel.read.context;
+package org.toolkit.config;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 @Component
 public class SpringContextHolder implements ApplicationContextAware {
 

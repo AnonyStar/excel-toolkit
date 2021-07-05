@@ -2,7 +2,6 @@ package org.toolkit.easyexcel.read.context;
 
 import org.toolkit.easyexcel.read.RowReadStatus;
 
-import javax.persistence.Transient;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
